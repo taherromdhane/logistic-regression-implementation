@@ -12,3 +12,18 @@ Initializing parameters.
   
 Of course this implementation has room to improve, and I'm looking forward to do it !  
 _Note : This implementation was made for learning purposes, it's not meant to be used in a real-world application, at least for the moment!_
+
+# This is basically how you could use it
+
+```python3
+
+  from logistic_regression import LogisticRegression
+  logreg = LogisticRegression(learning_rate = 0.002, loss='categorical_crossentropy')
+  history = logreg.fit(x_train, y_train, x_test, y_test, epochs=2000, verbose=100, metrics=['accuracy', 'loss'])
+```
+
+# Here's also a snippet of it's performance 
+
+![training and validation graph accuracy](./images/accuracy.PNG)
+
+![training and validation graph loss](./images/loss.PNG)
