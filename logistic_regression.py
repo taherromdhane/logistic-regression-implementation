@@ -32,7 +32,7 @@ class LogisticRegression :
 
         # This method computes the loss, given the predicted and true labels
 
-        if self.loss_metric == 'binary_crossentropy' :
+        if self.loss_metric == 'binary_crossentropy' or self.loss_metric == 'categorical_crossentropy':
             cost = -((1/self.batch_size) * np.sum(y_true * np.log(y_pred) + (1-y_true) * np.log(1-y_pred)))
 
         return cost
@@ -44,12 +44,13 @@ class LogisticRegression :
         # This method initializes both the weight and the bias matrices according
         # to the input's dimensions
 
-        self.dim = X.shape[1]
+        self.input_dim = X.shape[1]
+        self.output_dim = y_shape[0]
         self.batch_size = X.shape[0]
-        self.w = np.zeros((self.dim, 1))
-        self.dw = np.zeros([self.dim, 1])
-        self.b = 0
-        self.db = 0
+        self.w = np.zeros((self.input_dim, self.output_dim))
+        self.dw = np.zeros((self.input_dim, self.output_dim))
+        self.b = np.zeros((1, self.output_dim))
+        self.db = np.zeros((1, self.output_dim))
         for metric in metrics :
             self.history['train_' + metric] = []
             self.history['val_' + metric] = []
@@ -58,7 +59,7 @@ class LogisticRegression :
 
         # This method takes care of the backward propagation phase
 
-        y_pred = np.zeros((self.batch_size, 1))
+        y_pred = np.zeros((self.batch_size, self.output_dim))
         y_pred = self.__sigmoid(np.dot(X, self.w) + self.b)
         cost = self.loss(y_pred, y)
         self.dw = (1/self.batch_size) * np.dot(X.T, (y_pred - y))
@@ -136,7 +137,7 @@ class LogisticRegression :
 
         # This method will return 1-hot encoded predictions for the X_test labels
 
-        y_pred = np.zeros((self.batch_size, 1))
+        y_pred = np.zeros((self.batch_size, self.output_dim))
         y_pred = self.__sigmoid(np.dot(X_test, self.w) + self.b)
         y_rounded = np.round(y_pred).astype(int)
         return y_rounded
@@ -147,6 +148,6 @@ class LogisticRegression :
         # This method will return the probabilities of the predictions of the labels
         # of X_test
 
-        y_pred = np.zeros((self.batch_size, 1))
+        y_pred = np.zeros((self.batch_size, self.output_dim))
         y_pred = self.__sigmoid(np.dot(X_test, self.w) + self.b)
         return y_pred
