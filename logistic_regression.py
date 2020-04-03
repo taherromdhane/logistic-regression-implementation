@@ -27,7 +27,12 @@ class LogisticRegression :
         if self.loss_metric == 'binary_crossentropy' :
             return (100 - np.mean(np.abs(y_pred - y_true)) * 100)
         if self.loss_metric == 'categorical_crossentropy':
-            return (100 - np.mean(np.abs(np.argmax(y_pred, axis=1) - np.argmax(y_true, axis=1))) * 100)
+            if (len(y_pred.shape)>1 and y_pred.shape[1]>1) :
+                y_pred = np.argmax(y_pred, axis=1)
+            if (len(y_true.shape)>1 and y_true.shape[1]>1) :
+                y_true = np.argmax(y_true, axis=1)
+
+            return (100 - np.mean(np.abs(y_pred!= y_true)) * 100)
 
 
     def loss(self, y_pred, y_true) :
