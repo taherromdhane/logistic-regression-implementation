@@ -45,7 +45,7 @@ class LogisticRegression :
         # to the input's dimensions
 
         self.input_dim = X.shape[1]
-        self.output_dim = y_shape[0]
+        self.output_dim = y.shape[1]
         self.batch_size = X.shape[0]
         self.w = np.zeros((self.input_dim, self.output_dim))
         self.dw = np.zeros((self.input_dim, self.output_dim))
@@ -126,6 +126,19 @@ class LogisticRegression :
 
         #assert (not ((X_val and not y_val) or (not X_val and y_val)))
         assert (epochs > 0)
+
+        if (len(y_train.shape) == 1) :
+            y_placeholder = np.zeros((y_train.shape[0], 1))
+            y_placeholder[:, 0] = y_train
+            y_train = y_placeholder
+
+        if (len(y_val.shape) == 1) :
+            y_placeholder = np.zeros((y_val.shape[0], 1))
+            y_placeholder[:, 0] = y_val
+            y_val = y_placeholder
+
+        print(y_train[:20].T)
+        print(y_val[:20].T)
 
         self.__initialize_parameters(X_train, y_train, metrics)
         self.__optimize(X_train, y_train, X_val, y_val, epochs, metrics, verbose)
