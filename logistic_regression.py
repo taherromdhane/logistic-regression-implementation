@@ -29,9 +29,6 @@ class LogisticRegression :
 
         return s
 
-    def __accuracy_score
-
-
     def accuracy_score(self, y_pred, y_true):
 
         # This method computes the accuracy of predictions
