@@ -29,11 +29,16 @@ class LogisticRegression :
 
         return s
 
+    def __accuracy_score
+
+
     def accuracy_score(self, y_pred, y_true):
 
         # This method computes the accuracy of predictions
 
         if self.loss_metric == 'binary_crossentropy' or self.loss_metric == 'categorical_crossentropy':
+            y_pred = np.argmax(y_pred, axis=1)
+            y_true = np.argmax(y_true, axis=1)
             return (100 - np.mean(np.abs(y_pred != y_true)) * 100)
 
 
