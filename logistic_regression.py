@@ -137,9 +137,6 @@ class LogisticRegression :
             y_placeholder[:, 0] = y_val
             y_val = y_placeholder
 
-        print(y_train[:20].T)
-        print(y_val[:20].T)
-
         self.__initialize_parameters(X_train, y_train, metrics)
         self.__optimize(X_train, y_train, X_val, y_val, epochs, metrics, verbose)
 
